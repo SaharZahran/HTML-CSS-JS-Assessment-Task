@@ -1,0 +1,66 @@
+span.welcome {
+    background-color: black;
+    color: white;
+    padding: 10px;
+}
+
+.logo {
+    width: 3%;
+}
+
+.navbar-brand {
+    background-color: #FFC7CB;
+    padding: 0.5rem;
+    font-weight: bold;
+}
+
+.form-select {
+    width: 100%;
+    display: block;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+}
+
+.error {
+    color: red;
+}
+
+label {
+    position: relative;
+}
+
+.fa-check,
+.fa-exclamation-circle {
+    display: none;
+    position: absolute;
+    left: 31rem;
+    top: 3rem;
+}
+
+.fa-check {
+    color: rgb(26, 165, 26);
+    padding-right: 5px;
+}
+
+.fa-exclamation-circle {
+    color: red;
+    padding-right: 5px;
+}
+
+.red_cell {
+    color: white;
+    background-color: red;
+}
+
+.orange_cell {
+    color: white;
+    background-color: orange;
+}
+
+.green_cell {
+    color: white;
+    background-color: green;
+}
+
+
+/* <i class="fas fa-check"></i><i class="fas fa-exclamation-circle"></i>*/
