@@ -37,9 +37,33 @@ label {
     top: 3rem;
 }
 
+@media (max-width:568px) {
+    .fa-check,
+    .fa-exclamation-circle {
+        display: none;
+        position: absolute;
+        left: 28.5rem;
+        top: 3rem;
+    }
+}
+
+.appear {
+    display: block;
+}
+
 .fa-check {
     color: rgb(26, 165, 26);
     padding-right: 5px;
+}
+
+.green_text {
+    color: green;
+    padding-left: 0.2rem;
+}
+
+.red_text {
+    color: red;
+    padding-left: 0.2rem;
 }
 
 .fa-exclamation-circle {
@@ -60,6 +84,14 @@ label {
 .green_cell {
     color: white;
     background-color: green;
+}
+
+.red_alert {
+    border: 2px solid red;
+}
+
+.green_alert {
+    border: 2px solid green;
 }
 
 

@@ -1,5 +1,5 @@
 $(document).ready(show_cupcakes);
-const submitButton = document.querySelector('.btn');
+const submitButton = document.querySelector('.submit_button');
 const userName = document.querySelector('#exampleInputName1');
 const count = document.querySelector('#exampleInputCount1');
 const errors = document.querySelectorAll('.error');
@@ -12,6 +12,7 @@ const cross = document.querySelectorAll('.fa-exclamation-circle');
 const table = document.querySelector('table');
 const username = document.getElementById('welcome');
 const inputs = document.querySelectorAll('input');
+const inputNameRegex = /[A-z]{5,16}$/;
 var cup_cakes = [
     { "name": "Chocolate", "calories": "high", "weight": "200gm" },
     { "name": "Carrot", "calories": "medium", "weight": "150gm" },
@@ -23,7 +24,6 @@ var cup_cakes = [
 const arrayOfCakes = JSON.parse(JSON.stringify(cup_cakes));
 
 function show_cupcakes() {
-    //write code that shows the cupcakes in the table as per the instructions
     for (let i = 0; i < 5; i++) {
         const tableRow = document.createElement('tr');
         table.appendChild(tableRow);
@@ -51,62 +51,62 @@ function show_cupcakes() {
     })
 }
 
+function showMessageError(index, message) {
+    form[index].classList.add('red_alert');
+    form[index].classList.remove('green_alert');
+    errors[index].innerHTML = message;
+    errors[index].classList.add('red_text');
+    cross[index].classList.add('appear');
+    checks[index].classList.remove('appear');
+}
+
+function removeMessageError(index) {
+    form[index].classList.add('green_alert');
+    errors[index].innerHTML = "OK";
+    errors[index].classList.remove('red_text');
+    errors[index].classList.add('green_text');
+    cross[index].classList.remove('appear');
+    checks[index].classList.add('appear');
+}
+
 function validate() {
-    for (let i = 0; i <= 4; i++) {
-        if (form[i].value === "" || form[2].value === 'None' || form[3].value === 'None') {
-            form[i].style.border = '2px solid red';
-            cross[i].style.display = 'block';
+    submitButton.addEventListener('click', () => {
+        if (!inputNameRegex.test(form[0].value)) {
+            showMessageError(0, "The name must be netween 5 and 16 characters");
         } else {
-            errors[i].innerHTML = "OK";
-            errors[i].style.color = "green";
-            form[i].style.border = '2px solid rgb(26, 165, 26)';
-            checks[i].style.display = 'block';
-            cross[i].style.display = 'none';
+            removeMessageError(0);
         }
-        if (form[0].value.length < 5 || form[0].value.length > 17) {
-            form[0].style.border = '2px solid red';
-            cross[0].style.display = 'block';
-            checks[0].style.display = 'none';
-            errors[0].style.color = "red";
-
-            errors[0].innerHTML = "The name must be between 5 and 16 characters";
-
+        ////////////////////////////////////////
+        if (form[1].value < 1 || form[1].value > 15) {
+            showMessageError(1, "the count must be between 1 and 15");
         } else {
-            errors[0].innerHTML = "";
+            removeMessageError(1);
         }
-    }
-
-    if (form[1].value < 1 || form[1].value > 15) {
-        errors[1].innerHTML = "The count must be between 5 and 16 characters";
-        form[1].style.border = '2px solid red';
-        cross[1].style.display = 'block';
-        checks[1].style.display = 'block';
-        errors[1].style.color = "red";
-    } else {
-        errors[1].innerHTML = "";
-    }
-
-    if (form[2].value === 'Chocolate' && form[4].value === 'Dairy Free') {
-        errors[4].innerHTML = 'Chocolate cup cakces have diary';
-        cross[4].style.display = 'block';
-        errors[4].style.color = "red";
-        form[4].style.border = '2px solid red';
-        checks[4].style.display = 'none';
-    }
-    if (form[2].value === 'Pecan' && form[4].value === 'Nut Free') {
-        errors[4].innerHTML = 'Pecan cubcakes have nuts';
-        cross[4].style.display = 'block';
-        errors[4].style.color = "red";
-        form[4].style.border = '2px solid red';
-        checks[4].style.display = 'none';
-    }
-    if (form[2].value === 'Chocolate' && form[3].value === '4:00 PM') {
-        errors[2].innerHTML = 'This type of cake cannot be delivered at 4 PM';
-        cross[2].style.display = 'block';
-        errors[2].style.color = "red";
-        form[2].style.border = '2px solid red';
-        checks[2].style.display = 'none';
-    }
+        ////////////////////////////////////////
+        if (form[2].value === "None") {
+            showMessageError(2, "Please choose type!");
+        } else {
+            removeMessageError(2);
+        }
+        ////////////////////////////////////////
+        if (form[3].value === "None") {
+            showMessageError(3, "Please choose delivery time!");
+        } else if (form[2].value === 'Chocolate' && form[3].value === '4:00 PM') {
+            showMessageError(2, "this type of cake cannot be delivered at 4 PM.")
+        } else {
+            removeMessageError(3);
+        }
+        ////////////////////////////////////////
+        if (form[4].value === "None") {
+            removeMessageError(4)
+        } else if (form[2].value === 'Chocolate' && form[4].value === 'Dairy Free') {
+            showMessageError(2, "this type of cake is not dairy free.")
+        } else if (form[2].value === 'Pecan' && form[4].value === 'Nut Free') {
+            showMessageError(2, "this type of cake is not nut free.")
+        } else {
+            removeMessageError(2);
+        }
+    })
 }
 
 function show_storage() {
@@ -117,4 +117,6 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     validate();
     localStorage.setItem("name", userName.value);
+    form[0].setAttribute("required", "true");
+    form[1].setAttribute("required", "true");
 })
